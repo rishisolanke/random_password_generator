@@ -1,0 +1,39 @@
+import random
+import string
+
+def pwgen(length,with_digits=True,with_uppercase=True):
+    # Define character sets
+    lowercase_letters = string.ascii_lowercase
+    uppercase_letters = string.ascii_uppercase
+    digits = string.digits
+
+    #make sure atleast one character from each category is included
+    password = [random.choice(lowercase_letters)]
+
+    if with_digits:
+        password.append(random.choice(string.digits))
+    
+    if with_uppercase:
+        password.append(random.choice(string.ascii_uppercase))
+    
+    # Fill the rest of the password
+    remaining_length = length - len(password)
+    all_characters = lowercase_letters
+
+    if with_uppercase:
+        all_characters += uppercase_letters
+    
+    if with_digits:
+        all_characters += digits
+
+    password.extend(random.choices(all_characters, k=remaining_length))
+
+    # Shuffle the password
+    random.shuffle(password)
+
+    return ''.join(password)
+    
+print(pwgen(8))                     # Default parameters, e.g., with_digits=True, with_uppercase=True
+print(pwgen(10, with_digits=False))  # Without digits
+print(pwgen(12, with_uppercase=False))  # Without uppercase letters
+print(pwgen(14, with_digits=False, with_uppercase=False))  # Without digits and uppercase letters
